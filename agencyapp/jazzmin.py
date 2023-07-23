@@ -103,8 +103,17 @@ JAZZMIN_SETTINGS = {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
-        "carouselapp.carousel":"fab fa-slideshare",
-        "galleryapp.gallery":"fab fa-photo-video"
+        "carouselapp.carousel":"fas fa-sliders-h",
+        "galleryapp.gallery":"fas fa-photo-video",
+        "productapp.brand": "fas fa-store-alt",
+        "productapp.category":"fas fa-code-branch",
+        "productapp.subcategory":"fas fa-project-diagram",
+        "productapp.productimage":"fas fa-images",
+        "productapp.productusage":"fas fa-people-carry",
+        "productapp.product":"fas fa-car-battery",
+
+
+
 
     },
     # Icons that are used when one is not manually specified

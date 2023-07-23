@@ -42,7 +42,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.HyperlinkedModelSerializer):
     brand = BrandSerializer()
     category = CategorySerializer()
     subcategory = SubCategorySerializer()
@@ -55,7 +55,10 @@ class ProductSerializer(serializers.ModelSerializer):
             'category', 'subcategory', 'product_use', 'product_url', 'price', 'quantity',
             'meta_title', 'meta_keywords', 'meta_description', 'productImages'
         ]
-
+        lookup_field = 'product_url'
+        extra_kwargs = {
+            'url': {'lookup_field': 'product_url'}
+        }
 
 
 

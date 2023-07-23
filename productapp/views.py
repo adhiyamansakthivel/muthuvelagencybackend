@@ -32,6 +32,7 @@ class ProductUsageViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    lookup_field = 'product_url'
     http_method_names = ['get']
 
 
