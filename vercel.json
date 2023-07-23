@@ -2,7 +2,7 @@
     "builds": [{
         "src": "agencyapp/wsgi.py",
         "use":"@vercel/python",
-        "config":{"maxLamdaSize": "15mb", "runtime":"python3.11.3" }
+        "config":{"maxLamdaSize": "15mb", "runtime":"python3.9" }
     }],
     "routes":[
         {
