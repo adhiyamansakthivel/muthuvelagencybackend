@@ -26,7 +26,9 @@ from django.urls import re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/product/',include('productapp.urls')),
+    path('api/',include('productapp.urls')),
+    path('api/gallery/',include('galleryapp.urls')),
+    path('api/carousel/',include('carouselapp.urls')),
     # path('api/gallery/',include('galleryapp.urls')),
     # path('api/carsouel/',include('carouselapp.urls'))
 ]

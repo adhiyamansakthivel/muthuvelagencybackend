@@ -2,6 +2,7 @@ from django.db import models
 import os
 import uuid
 from django.utils.deconstruct import deconstructible
+from .validators import validate_file_size
 
 
 @deconstructible
@@ -18,7 +19,7 @@ class RandomFileName(object):
 class Gallery(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, null=True, blank=True)
-    image =  models.ImageField(null=False, blank=False, upload_to=RandomFileName('gallery'))
+    image =  models.ImageField(null=False, blank=False, upload_to=RandomFileName('gallery'), validators=[validate_file_size])
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

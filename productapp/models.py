@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 import os
 from django.utils.deconstruct import deconstructible
 from ckeditor.fields import RichTextField
+from galleryapp.validators import validate_file_size
 
 
 # Create your models here.
@@ -42,7 +43,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
     brand_url = AutoSlugField(populate_from ='name', unique=True, null=False, default=None)
-    logo = models.ImageField(null=False, blank=False, upload_to=RandomFileName('brand_logo'))
+    logo = models.ImageField(null=False, blank=False, upload_to=RandomFileName('brand_logo'), validators=[validate_file_size])
     website = models.URLField(null=True, blank=True)
     meta_title = models.CharField(max_length=200,  null=True, blank=True)
     meta_keywords = models.TextField(null=True, blank=True)
@@ -137,7 +138,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200, null=False)
-    image =  models.ImageField(null=True, blank=True, upload_to=RandomFileName('products'))
+    image =  models.ImageField(null=True, blank=True, upload_to=RandomFileName('products'), validators=[validate_file_size])
     description = RichTextField(null=True, blank=True)
     product_url = AutoSlugField(populate_from ='name', unique=True, null=False, blank=False, default=None)
     product_use = models.ManyToManyField(ProductUsage, related_name='productuse', blank=True)
@@ -168,12 +169,11 @@ class Product(models.Model):
 class ProductImage(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='productImages')
-    product_Image = models.ImageField(upload_to=RandomFileName('productlist'),  null=False)
+    product_Image = models.ImageField(upload_to=RandomFileName('productlist'),  null=False , validators=[validate_file_size])
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'product Images'
 
-    def __str__(self):
-        return self.product_Image
+ 
