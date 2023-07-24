@@ -4,6 +4,8 @@ from rest_framework import routers
 from productapp.views import ProductViewSet, BrandViewSet, NavigationViewSet 
 router = routers.DefaultRouter()
 router.register(r'product',ProductViewSet)
+router.register(r'brand',BrandViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -17,6 +17,7 @@ def getProducts(self):
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
+    http_method_names = ['get']
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
