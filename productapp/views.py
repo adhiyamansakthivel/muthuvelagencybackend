@@ -10,6 +10,7 @@ from .serializers import *
 def getProducts(self):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
+    lookup_field = 'brand_url'
     return Response(serializer.data)
 
 

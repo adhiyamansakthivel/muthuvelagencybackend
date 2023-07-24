@@ -10,7 +10,10 @@ class BrandSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'brand_url', 'logo', 
           'meta_title', 'meta_keywords', 'meta_description'
         ]
-
+        lookup_field = 'brand_url'
+        extra_kwargs = {
+            'url': {'lookup_field': 'brand_url'}
+        }
 
 class CategorySerializer(serializers.ModelSerializer):
     
