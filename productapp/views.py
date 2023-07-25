@@ -16,15 +16,16 @@ def getProducts(self):
 
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
-    serializer_class = BrandSerializer
+    serializer_class = BrandViewSerializer
     lookup_field = 'brand_url'
     http_method_names = ['get']
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
+    serializer_class = CategoryViewSerializer
+    lookup_field = 'category_url'
+    http_method_names = ['get']
 
 class ProductUsageViewSet(viewsets.ModelViewSet):
     queryset = ProductUsage.objects.all()
@@ -38,8 +39,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
 
-class NavigationViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = NavigationSerializer
+    
+class AllInViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all(), Category.objects.all() , Brand.objects.all()
+    serializer_class = ProductSerializer
 
 

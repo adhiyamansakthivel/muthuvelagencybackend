@@ -64,7 +64,57 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 
+class ProducBrandViewSerializer(serializers.HyperlinkedModelSerializer):
+    category = CategorySerializer()
+    subcategory = SubCategorySerializer()
+    product_use = ProductUsageSerializer(many=True)
+    productImages = ProductImageSerializer(many=True)
 
+    class Meta:
+        model = Product
+        fields = ['id','name','image','description', 
+            'category', 'subcategory', 'product_use', 'product_url', 'price', 'quantity',
+            'meta_title', 'meta_keywords', 'meta_description', 'productImages'
+        ]
+        
+
+
+class BrandViewSerializer(serializers.ModelSerializer):
+    products = ProducBrandViewSerializer(many = True)
+    class Meta:
+        model = Brand
+        fields = ['id', 'name', 'brand_url', 'logo', 'products',
+          'meta_title', 'meta_keywords', 'meta_description'
+        ]
+        lookup_field = 'brand_url'
+        extra_kwargs = {
+            'url': {'lookup_field': 'brand_url'}
+        }
+
+
+class ProducCategoryViewSerializer(serializers.HyperlinkedModelSerializer):
+    brand = BrandSerializer()
+    subcategory = SubCategorySerializer()
+    product_use = ProductUsageSerializer(many=True)
+    productImages = ProductImageSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = ['id','name','image','description', 'brand',
+            'subcategory', 'product_use', 'product_url', 'price', 'quantity',
+            'meta_title', 'meta_keywords', 'meta_description', 'productImages'
+        ]
+        
+
+class CategoryViewSerializer(serializers.ModelSerializer):
+    products = ProducCategoryViewSerializer(many = True)
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'category_url','products', 'meta_title', 'meta_keywords','meta_description' ]
+        lookup_field = 'category_url'
+        extra_kwargs = {
+            'url': {'lookup_field': 'category_url'}
+        }
 
 
 
