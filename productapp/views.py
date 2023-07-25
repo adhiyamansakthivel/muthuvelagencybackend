@@ -10,7 +10,6 @@ from .serializers import *
 def getProducts(self):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
-    lookup_field = 'brand_url'
     return Response(serializer.data)
 
 
@@ -18,6 +17,7 @@ def getProducts(self):
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
+    lookup_field = 'brand_url'
     http_method_names = ['get']
 
 
