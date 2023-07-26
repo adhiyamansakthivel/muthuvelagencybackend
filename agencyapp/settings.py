@@ -48,12 +48,16 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'corsheaders',
-
+    'django_filters',
     'carouselapp.apps.CarouselappConfig',
     'galleryapp.apps.GalleryappConfig',
     'productapp.apps.ProductappConfig',
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 
 AUTH_USER_MODEL = 'productapp.User'

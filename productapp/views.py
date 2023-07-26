@@ -4,6 +4,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+
 # Create your views here.
 
 @api_view(['GET'])
@@ -35,6 +38,9 @@ class ProductUsageViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ["brand", "category"]
+    search_fields = ["name"]
     lookup_field = 'product_url'
     http_method_names = ['get']
 
