@@ -49,14 +49,19 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'corsheaders',
     'django_filters',
+    'reset_migrations',
     'carouselapp.apps.CarouselappConfig',
     'galleryapp.apps.GalleryappConfig',
     'productapp.apps.ProductappConfig',
+    
 
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ]
 }
 
 
@@ -110,20 +115,20 @@ WSGI_APPLICATION = 'agencyapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'muthuveldb',
-#         'USER': 'muthuveladmin',
-#         'PASSWORD': 'zRetkWs2r4oS',
-#         'HOST': 'ep-round-band-254928.us-east-2.aws.neon.tech',
-#         'PORT': '5432'
-#    }
-# }
-
 DATABASES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'muthuveldb',
+        'USER': 'postgres',
+        'PASSWORD': 'Monster01',
+        'HOST': 'muthuveldb.cdzzyq6teb6n.eu-north-1.rds.amazonaws.com',
+        'PORT': '5432'
+   }
 }
+
+# DATABASES = {
+#     "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+# }
 
 
 # Password validation

@@ -18,14 +18,14 @@ def getProducts(self):
 
 
 class BrandViewSet(viewsets.ModelViewSet):
-    queryset = Brand.objects.all()
+    queryset = Brand.objects.filter(status=True)
     serializer_class = BrandViewSerializer
     lookup_field = 'brand_url'
     http_method_names = ['get']
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(status=True).prefetch_related('products').filter(products__status=True)
     serializer_class = CategoryViewSerializer
     lookup_field = 'category_url'
     http_method_names = ['get']
@@ -36,7 +36,7 @@ class ProductUsageViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(status=True).select_related('brand').filter(brand__status=True).select_related('category').filter(category__status=True)
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ["brand", "category"]
