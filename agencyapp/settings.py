@@ -14,6 +14,7 @@ from pathlib import Path
 import dj_database_url
 import cloudinary_storage
 import os 
+from decouple import config
 
 from .jazzmin import JAZZMIN_SETTINGS
 
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=4=@l4&rnt3_$(ah*c-3__imfzsrryv_*5*65s=6+h7(b@%luh'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -118,10 +119,10 @@ WSGI_APPLICATION = 'agencyapp.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'muthuveldb',
-        'USER': 'postgres',
-        'PASSWORD': 'Monster01',
-        'HOST': 'muthuveldb.cdzzyq6teb6n.eu-north-1.rds.amazonaws.com',
+       'NAME': config('NAME'),
+        'USER': config('USER'),
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST'),
         'PORT': '5432'
    }
 }
