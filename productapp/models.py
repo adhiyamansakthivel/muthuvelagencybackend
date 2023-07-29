@@ -38,39 +38,12 @@ class User(AbstractUser):
 
 
 
-class Brand(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=200, null=False, blank=False)
-    description = models.TextField(null=True, blank=True)
-    brand_url = AutoSlugField(populate_from ='name', unique=True, null=False, default=None)
-    logo = models.ImageField(null=False, blank=False, upload_to=RandomFileName('brand_logo'), validators=[validate_file_size])
-    website = models.URLField(null=True, blank=True)
-    meta_title = models.CharField(max_length=200,  null=True, blank=True)
-    meta_keywords = models.TextField(null=True, blank=True)
-    meta_description = models.TextField(null=True, blank=True)
-    status = models.BooleanField(default=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        self.meta_title = self.name
-        super(Brand, self).save(*args, **kwargs)
-
-    class Meta:
-        verbose_name_plural = 'Brands'
-
-    def __str__(self):
-       return self.name
-    
-
-
 
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     category_url = AutoSlugField(populate_from ='name', unique=True, null=False, blank=False, default=None)
-    brand = models.ManyToManyField(Brand, related_name="Category", blank=True)
     meta_title = models.CharField(max_length=200, null=True, blank=True)
     meta_keywords = models.TextField(null=True, blank=True)
     meta_description = models.TextField(null=True, blank=True)
@@ -89,7 +62,30 @@ class Category(models.Model):
        return self.name
     
 
+class Brand(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
+    description = models.TextField(null=True, blank=True)
+    brand_url = AutoSlugField(populate_from ='name', unique=True, null=False, default=None)
+    category = models.ManyToManyField(Category, related_name="categories")
+    logo = models.ImageField(null=False, blank=False, upload_to=RandomFileName('brand_logo'), validators=[validate_file_size])
+    website = models.URLField(null=True, blank=True)
+    meta_title = models.CharField(max_length=200,  null=True, blank=True)
+    meta_keywords = models.TextField(null=True, blank=True)
+    meta_description = models.TextField(null=True, blank=True)
+    status = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        self.meta_title = self.name
+        super(Brand, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Brands'
+
+    def __str__(self):
+       return self.name
 
     
     
