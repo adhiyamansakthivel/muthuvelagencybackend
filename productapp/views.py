@@ -6,6 +6,7 @@ from .models import *
 from .serializers import *
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.views import APIView
 
 # Create your views here.
 
@@ -74,9 +75,21 @@ class ProductViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
 
+class ProductfilterViewSet(APIView):
     
-class AllInViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all(), Category.objects.all() , Brand.objects.all()
-    serializer_class = ProductSerializer
+    def get(self, request, *args, **kwargs):
+        queryset = Product.objects.all()
 
+        product_id = self.request.query_params.get('product_id', None)
+        category_id = self.request.query_params.get('category_id', None)
+
+        if product_id and category_id: 
+            queryset=queryset.filter(category=category_id).exclude(id=product_id)
+
+        serializer_class = ProductSerializer(queryset, many=True)
+        return Response(serializer_class.data)
+
+
+
+    
 
