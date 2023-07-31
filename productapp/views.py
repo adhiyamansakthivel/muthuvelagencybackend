@@ -16,19 +16,48 @@ def getProducts(self):
     return Response(serializer.data)
 
 
-
+# brand group start
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.filter(status=True)
-    serializer_class = BrandViewSerializer
+    serializer_class = BrandSerializer
     lookup_field = 'brand_url'
     http_method_names = ['get']
 
+class BrandCategoryViewSet(viewsets.ModelViewSet):
+    queryset = Brand.objects.filter(status=True)
+    serializer_class = BrandCategoryViewSerializer
+    lookup_field = 'brand_url'
+    http_method_names = ['get']
 
+class BrandProductViewSet(viewsets.ModelViewSet):
+    queryset = Brand.objects.filter(status=True)
+    serializer_class = BrandProductViewSerializer
+    lookup_field = 'brand_url'
+    http_method_names = ['get']
+
+# brand group end
+
+
+# category group start
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.filter(status=True).prefetch_related('products').filter(products__status=True)
-    serializer_class = CategoryViewSerializer
+    queryset = Category.objects.filter(status=True)
+    serializer_class = CategorySerializer
     lookup_field = 'category_url'
     http_method_names = ['get']
+
+class CategoryBrandViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.filter(status=True)
+    serializer_class = CategoryBrandSerializer
+    lookup_field = 'category_url'
+    http_method_names = ['get']
+
+class CategoryProductViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.filter(status=True)
+    serializer_class = CategoryProductSerializer
+    lookup_field = 'category_url'
+    http_method_names = ['get']
+
+# category group end
 
 class ProductUsageViewSet(viewsets.ModelViewSet):
     queryset = ProductUsage.objects.all()

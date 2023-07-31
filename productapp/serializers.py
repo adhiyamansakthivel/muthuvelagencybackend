@@ -61,6 +61,45 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         lookup_field = 'product_url'
         extra_kwargs = {
             'url': {'lookup_field': 'product_url'}
+            
+        }
+
+
+class ProducCategoryViewSerializer(serializers.HyperlinkedModelSerializer):
+    brand = BrandSerializer()
+    subcategory = SubCategorySerializer()
+    product_use = ProductUsageSerializer(many=True)
+    productImages = ProductImageSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = ['id','name','image','description', 'brand',
+            'subcategory', 'product_use', 'product_url', 'price', 'quantity',
+            'meta_title', 'meta_keywords', 'meta_description', 'productImages'
+        ]
+        
+
+
+class CategoryBrandSerializer(serializers.ModelSerializer):
+    brand = BrandSerializer(many=True)
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'category_url','brand', 'meta_title', 'meta_keywords','meta_description' ]
+        lookup_field = 'category_url'
+        extra_kwargs = {
+            'url': {'lookup_field': 'category_url'}
+        }
+
+
+
+class CategoryProductSerializer(serializers.ModelSerializer):
+    products = ProducCategoryViewSerializer(many = True)
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'category_url','products', 'meta_title', 'meta_keywords','meta_description' ]
+        lookup_field = 'category_url'
+        extra_kwargs = {
+            'url': {'lookup_field': 'category_url'}
         }
 
 
@@ -79,70 +118,50 @@ class ProducBrandViewSerializer(serializers.HyperlinkedModelSerializer):
         
 
 
-class BrandViewSerializer(serializers.ModelSerializer):
-    products = ProducBrandViewSerializer(many = True)
+# class BrandViewSerializer(serializers.ModelSerializer):
+#     category = CategoryViewSerializer(many=True)
+#     class Meta:
+#         model = Brand
+#         fields = ['id', 'name', 'brand_url', 'logo', 'category','products',
+#           'meta_title', 'meta_keywords', 'meta_description'
+#         ]
+#         lookup_field = 'brand_url'
+#         extra_kwargs = {
+#             'url': {'lookup_field': 'brand_url'}
+#         }
+
+
+class BrandCategoryViewSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=True)
+    class Meta:
+        model = Brand
+        fields = ['id', 'name', 'brand_url', 'logo', 'category',
+          'meta_title', 'meta_keywords', 'meta_description'
+        ]
+
+        lookup_field = 'brand_url'
+        extra_kwargs = {
+            'url': {'lookup_field': 'brand_url'}
+        }
+
+class BrandProductViewSerializer(serializers.ModelSerializer):
+    products = ProducBrandViewSerializer(many=True)
     class Meta:
         model = Brand
         fields = ['id', 'name', 'brand_url', 'logo', 'products',
           'meta_title', 'meta_keywords', 'meta_description'
         ]
+
         lookup_field = 'brand_url'
         extra_kwargs = {
             'url': {'lookup_field': 'brand_url'}
         }
 
 
-class ProducCategoryViewSerializer(serializers.HyperlinkedModelSerializer):
-    brand = BrandSerializer()
-    subcategory = SubCategorySerializer()
-    product_use = ProductUsageSerializer(many=True)
-    productImages = ProductImageSerializer(many=True)
-
-    class Meta:
-        model = Product
-        fields = ['id','name','image','description', 'brand',
-            'subcategory', 'product_use', 'product_url', 'price', 'quantity',
-            'meta_title', 'meta_keywords', 'meta_description', 'productImages'
-        ]
-        
-
-class CategoryViewSerializer(serializers.ModelSerializer):
-    products = ProducCategoryViewSerializer(many = True)
-    class Meta:
-        model = Category
-        fields = ['id', 'name', 'category_url','products', 'meta_title', 'meta_keywords','meta_description' ]
-        lookup_field = 'category_url'
-        extra_kwargs = {
-            'url': {'lookup_field': 'category_url'}
-        }
 
 
 
 
 
 
-class CatNavSerilizerField(serializers.Field):
-    def to_representation(self, category):
 
-        if isinstance(category, (Category,)):
-            category = category.id
-        return category
-    
-    def to_internal_value(self, id):
-        dict = {
-            'category': Category.objects.get(pk=id)
-        }
-        return dict
-
-
-
-class NavigationSerializer(serializers.ModelSerializer):
-    category = serializers.SerializerMethodField()
-   
-    def get_category(self, obj):
-        c = Category.objects.get(pk=obj['category'], many=True)
-
-        return{
-            'id':c.pk,
-            'name': c.name,
-        }

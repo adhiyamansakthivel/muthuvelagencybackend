@@ -67,7 +67,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
     brand_url = AutoSlugField(populate_from ='name', unique=True, null=False, default=None)
-    category = models.ManyToManyField(Category, related_name="categories")
+    category = models.ManyToManyField(Category, related_name="brand")
     logo = models.ImageField(null=False, blank=False, upload_to=RandomFileName('brand_logo'), validators=[validate_file_size])
     website = models.URLField(null=True, blank=True)
     meta_title = models.CharField(max_length=200,  null=True, blank=True)
