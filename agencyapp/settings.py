@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'cloudinary',
     'cloudinary_storage',
+    'import_export',
     'corsheaders',
     'django_filters',
     'reset_migrations',
