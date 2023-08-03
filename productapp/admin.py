@@ -1,5 +1,6 @@
 from django.contrib import admin
-from import_export.admin import ExportActionMixin
+from import_export.admin import ExportActionModelAdmin, ExportActionMixin
+
 from .models import *
 
 
@@ -10,6 +11,8 @@ class ProductImageAdmin(admin.StackedInline):
 
 class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     inlines = [ProductImageAdmin]
+
+    list_display = ('name','brand', 'category', 'subcategory','status', 'created_at')
 
     list_filter = [
          "brand",
@@ -26,7 +29,7 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
         model = Product
 
 
-class BrandAdmin(ExportActionMixin, admin.ModelAdmin):
+class BrandAdmin(admin.ModelAdmin):
     list_filter = [
          "status",
          'created_at'
@@ -39,7 +42,7 @@ class BrandAdmin(ExportActionMixin, admin.ModelAdmin):
         model = Brand
 
 
-class CategoryAdmin(ExportActionMixin, admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_filter = [
          "status",
          'created_at'
@@ -52,7 +55,8 @@ class CategoryAdmin(ExportActionMixin, admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(Category,)
+admin.site.register(User)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(SubCategory)
 admin.site.register(ProductUsage)

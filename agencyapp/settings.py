@@ -48,14 +48,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'cloudinary',
     'cloudinary_storage',
-    'import_export',
     'corsheaders',
     'django_filters',
     'reset_migrations',
     'carouselapp.apps.CarouselappConfig',
     'galleryapp.apps.GalleryappConfig',
     'productapp.apps.ProductappConfig',
-    
+    'import_export',
 
 ]
 
@@ -177,6 +176,9 @@ STATICFILES_DIRS = [
 # MEDIA_ROOT = BASE_DIR / 'static/images'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
