@@ -62,6 +62,7 @@ class UserManager(BaseUserManager):
             password=password,
             **extra_fields,
         )
+        user.is_superuser = True
         user.is_staff = True
         user.is_admin = True
         user.save(using=self._db)
@@ -70,7 +71,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser,  PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=200, null=True, blank=False)
     email = models.EmailField(unique=True, null=False, blank=False)
     bio = models.TextField(null=True, blank=True)
 
@@ -98,15 +98,6 @@ class User(AbstractUser,  PermissionsMixin):
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
-        return True
 
     @property
     def is_is_staff(self):

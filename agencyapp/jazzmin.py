@@ -80,10 +80,13 @@ JAZZMIN_SETTINGS = {
     "hide_apps": [],
 
     # Hide these models when generating side menu (e.g auth.user)
-    "hide_models": [],
+    "hide_models": ['productapp.productimage'],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["auth",'productapp.user', "carouselapp.carousel"],
+    "order_with_respect_to": ["auth",'productapp.user','productapp.category','productapp.subcategory','productapp.brand', 
+            'productapp.product','productapp.productusage',
+             "carouselapp.carousel"
+    ],
 
     # Custom links to append to app groups, keyed on app name
     "custom_links": {
