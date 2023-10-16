@@ -92,6 +92,7 @@ class CategoryBrandSerializer(serializers.ModelSerializer):
 
 
 
+
 class CategoryProductSerializer(serializers.ModelSerializer):
     products = ProducCategoryViewSerializer(many = True)
     class Meta:
@@ -162,6 +163,46 @@ class BrandProductViewSerializer(serializers.ModelSerializer):
 
 
 
+class CategorySubCategorySerializer(serializers.ModelSerializer):
+    subcategory = SubCategorySerializer(many=True)
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'category_url','subcategory', 'meta_title', 'meta_keywords','meta_description' ]
+        lookup_field = 'category_url', 
+        extra_kwargs = {
+            'url': {'lookup_field': 'category_url'}
+        }
+
+
+
+
+class SubCategoryViewSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    products = ProducCategoryViewSerializer(many = True)
+
+
+    class Meta:
+        model = SubCategory
+        fields = ['id', 'name', 'subcategory_url', 'category', 'products',  'meta_title', 'meta_keywords','meta_description' ]
+        lookup_field = 'subcategory_url'
+        extra_kwargs = {
+            'url': {'lookup_field':  'subcategory_url'}
+        }
+        
+
+class SubCategoryProductViewSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    products = ProducCategoryViewSerializer(many = True)
+
+
+    class Meta:
+        model = SubCategory
+        fields = ['id', 'name', 'subcategory_url', 'category', 'products', 'meta_title', 'meta_keywords','meta_description' ]
+        lookup_field = 'subcategory_url'
+        extra_kwargs = {
+            'url': {'lookup_field':  'subcategory_url'}
+        }
+        
 
 
 

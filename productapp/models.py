@@ -6,6 +6,8 @@ import os
 from django.utils.deconstruct import deconstructible
 from ckeditor.fields import RichTextField
 from galleryapp.validators import validate_file_size
+from django.core.validators import RegexValidator
+import random
 
 
 # Create your models here.
@@ -209,6 +211,7 @@ class ProductUsage(models.Model):
 
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    product_id = models.CharField(unique=True,blank=True, null=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
@@ -229,6 +232,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         self.meta_title = self.name
+        self.product_id = random.randrange(1111111111, 9999999999, 10)
         super(Product, self).save(*args, **kwargs)
 
 

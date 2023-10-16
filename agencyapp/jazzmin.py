@@ -115,7 +115,11 @@ JAZZMIN_SETTINGS = {
         "productapp.productusage":"fas fa-people-carry",
         "productapp.product":"fas fa-car-battery",
         "productapp.user":"fas fa-user-friends",
-
+        "ekartapp.ekbrand":"fab fa-opencart",
+        "ekartapp.ekcategory":"fas fa-code-branch",
+        "ekartapp.eksubcategory":"fas fa-project-diagram",
+        "ekartapp.ekproductimage":"fas fa-images",
+        "ekartapp.ekproduct":"fas fa-car-battery"
 
 
 

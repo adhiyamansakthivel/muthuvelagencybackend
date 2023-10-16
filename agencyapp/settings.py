@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'carouselapp.apps.CarouselappConfig',
     'galleryapp.apps.GalleryappConfig',
     'productapp.apps.ProductappConfig',
+    'ekartapp.apps.EkartappConfig',
     'import_export',
 
 ]

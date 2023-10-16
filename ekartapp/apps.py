@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class GalleryappConfig(AppConfig):
+class EkartappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'galleryapp'
-    verbose_name = 'Gallery'
+    name = 'ekartapp'
+    verbose_name = 'Ekart'

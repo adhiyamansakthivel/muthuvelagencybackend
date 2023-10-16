@@ -1,10 +1,11 @@
 from django.contrib import admin
-from import_export.admin import ExportActionModelAdmin, ExportActionMixin
-from django.contrib.auth import get_user_model
+from import_export.admin import  ExportMixin
+from import_export import fields,resources
+from import_export.widgets import ForeignKeyWidget
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-
 from .models import *
+from django.utils.html import format_html
 
 
 class UserAdmin(BaseUserAdmin):
@@ -40,14 +41,43 @@ admin.site.register(User, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 
+
+
+# product group
 class ProductImageAdmin(admin.StackedInline):
     model = ProductImage
 
+class ProductResource(resources.ModelResource):
+    brand = fields.Field(
+        column_name='brand',
+        attribute='brand',
+        widget=ForeignKeyWidget(Brand, 'name'))
+    
+    category = fields.Field(
+        column_name='category',
+        attribute='category',
+        widget=ForeignKeyWidget(Category, 'name'))
 
-class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
+    subcategory = fields.Field(
+        column_name='',
+        attribute='subcategory',
+        widget=ForeignKeyWidget(SubCategory, 'name'))
+    
+    class Meta:
+        fields = ('name','image', 'brand_name', 'category_name', 'subcategory_name','status', 'created_at')
+
+
+class ProductAdmin(ExportMixin, admin.ModelAdmin):
     inlines = [ProductImageAdmin]
 
-    list_display = ('name','brand', 'category', 'subcategory','status', 'created_at')
+    list_display = ('name','product_image', 'brand', 'category', 'subcategory','status', 'created_at')
+    
+    def product_image(self, obj):
+        return format_html('<img src="{0}" width="auto" height="50px" >'
+        .format(obj.image.url))
+
+    
+    resource_class = ProductResource
 
     list_filter = [
          "brand",
@@ -58,15 +88,24 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     ]
     search_fields = (
         "name",
+        "product_id",
     )
     ordering = ['name', 'created_at']
     list_per_page = 15
     class Meta:
         model = Product
 
-
+# end product group
 
 class BrandAdmin(admin.ModelAdmin):
+
+    list_display = ('name','logo_image','status', 'created_at')
+
+    def logo_image(self, obj):
+        return format_html('<img src="{0}" width="auto" height="50px" >'
+        .format(obj.logo.url))
+
+
     list_filter = [
          "status",
          'created_at'
@@ -80,6 +119,8 @@ class BrandAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'status', 'created_at')
+
     list_filter = [
          "status",
          'created_at'
@@ -91,7 +132,6 @@ class CategoryAdmin(admin.ModelAdmin):
         model = Category
 
 
-# Register your models here.
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(SubCategory)

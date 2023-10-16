@@ -7,6 +7,8 @@ from .serializers import *
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from django.http.response import JsonResponse
 
 # Create your views here.
 
@@ -90,6 +92,27 @@ class ProductfilterViewSet(APIView):
         return Response(serializer_class.data)
 
 
+class DivisionList(APIView):
+    permission_classes = [IsAuthenticated,]
+    def post(self, request, format=None):
+        brand=request.data['data']
+        division = {}
+        if brand:
+            divisions = Brand.objects.get(id=brand).divisions.all()
+            division={p.name:p.id for p in divisions}
+        return JsonResponse(data=division, safe=False)
 
-    
 
+
+class CategorySubCategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.filter(status=True)
+    serializer_class = CategorySubCategorySerializer
+    lookup_field = 'category_url'
+    http_method_names = ['get']
+
+
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    queryset = SubCategory.objects.filter(status=True)
+    serializer_class = SubCategoryViewSerializer
+    lookup_field =  'subcategory_url'
+    http_method_names = ['get']
